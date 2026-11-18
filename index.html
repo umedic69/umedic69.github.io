@@ -4,112 +4,86 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#c9e8ff" />
-    <meta name="description" content="A focused progress notepad for the CURADENT ETL pipeline." />
+    <meta name="description" content="Shared progress notes for the CURADENT ETL pipeline." />
     <title>CURADENT · ETL Progress Notepad</title>
     <style>
       :root {
         color-scheme: light;
         --ink: #073b82;
         --ink-bright: #0756b5;
-        --sky: #b7ddfb;
-        --glass: rgb(255 255 255 / 72%);
+        --glass: rgb(255 255 255 / 76%);
         --line: rgb(7 59 130 / 15%);
       }
-
       * { box-sizing: border-box; }
       body {
-        min-height: 100vh;
-        margin: 0;
-        overflow-x: hidden;
-        color: var(--ink);
+        min-height: 100vh; margin: 0; overflow-x: hidden; color: var(--ink);
         background: linear-gradient(180deg, #91cafa 0%, #d8efff 56%, #f5fbff 100%);
         font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       }
-      button, textarea, input { font: inherit; color: var(--ink); }
+      textarea { font: inherit; color: var(--ink); }
       .sky-scene { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
       .sun-glow {
         position: absolute; top: 5%; right: 12%; width: min(32vw, 330px); aspect-ratio: 1;
         border-radius: 50%; background: radial-gradient(circle, rgb(255 255 255 / 82%) 0%, rgb(255 255 255 / 28%) 42%, transparent 72%);
       }
       .cloud {
-        --scale: 1;
-        position: absolute;
-        width: calc(220px * var(--scale)); height: calc(64px * var(--scale));
-        border-radius: 999px;
-        background: rgb(255 255 255 / 76%);
+        --scale: 1; position: absolute; width: calc(220px * var(--scale)); height: calc(64px * var(--scale));
+        border-radius: 999px; background: rgb(255 255 255 / 76%);
         filter: drop-shadow(0 16px 24px rgb(34 103 166 / 10%));
-        animation: drift var(--duration, 72s) linear infinite;
-        transform: translateX(-35vw);
+        animation: drift var(--duration, 72s) linear infinite; transform: translateX(-35vw);
       }
-      .cloud::before, .cloud::after {
-        content: ""; position: absolute; bottom: 24%; border-radius: 50%; background: inherit;
-      }
+      .cloud::before, .cloud::after { content: ""; position: absolute; bottom: 24%; border-radius: 50%; background: inherit; }
       .cloud::before { left: 18%; width: 42%; aspect-ratio: 1; }
       .cloud::after { left: 45%; bottom: 18%; width: 54%; aspect-ratio: 1; }
       .cloud-one { top: 13%; --scale: 1.25; --duration: 95s; }
       .cloud-two { top: 34%; --scale: .8; --duration: 75s; animation-delay: -38s; opacity: .7; }
       .cloud-three { top: 59%; --scale: 1.6; --duration: 115s; animation-delay: -70s; opacity: .55; }
       .cloud-four { top: 78%; --scale: .95; --duration: 88s; animation-delay: -54s; opacity: .62; }
-      @keyframes drift {
-        from { transform: translateX(-35vw); }
-        to { transform: translateX(125vw); }
-      }
-      .page { width: min(1040px, calc(100% - 32px)); margin: 0 auto; padding: 36px 0 64px; }
-      header { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 52px; }
-      .brand { display: flex; align-items: center; gap: 12px; font-weight: 850; letter-spacing: .04em; }
+      @keyframes drift { from { transform: translateX(-35vw); } to { transform: translateX(125vw); } }
+      .page { width: min(1120px, calc(100% - 36px)); margin: 0 auto; padding: 22px 0 42px; }
+      header { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 24px; }
+      .brand { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 850; letter-spacing: .04em; }
       .brand-mark {
-        display: grid; width: 42px; height: 42px; place-items: center; border: 1px solid var(--line);
-        border-radius: 14px; background: rgb(255 255 255 / 72%); color: var(--ink-bright); font-size: 20px;
+        display: grid; width: 36px; height: 36px; place-items: center; border: 1px solid var(--line);
+        border-radius: 12px; background: rgb(255 255 255 / 72%); color: var(--ink-bright); font-size: 18px;
         box-shadow: 0 8px 26px rgb(7 59 130 / 10%);
       }
-      .local-note { font-size: 13px; font-weight: 700; color: var(--ink-bright); }
-      .hero { max-width: 760px; margin: 0 auto 34px; text-align: center; }
-      .eyebrow { margin: 0 0 12px; color: var(--ink-bright); font-size: 12px; font-weight: 850; letter-spacing: .2em; text-transform: uppercase; }
-      h1 { margin: 0; font-size: clamp(42px, 8vw, 76px); line-height: .98; letter-spacing: -.055em; color: #063878; }
-      .intro { max-width: 610px; margin: 20px auto 0; color: #164e8e; font-size: clamp(16px, 2.5vw, 19px); line-height: 1.65; }
+      .local-note { color: var(--ink-bright); font-size: 12px; font-weight: 700; }
+      .hero { margin: 0 auto 22px; text-align: center; }
+      .eyebrow { margin: 0 0 7px; color: var(--ink-bright); font-size: 10px; font-weight: 850; letter-spacing: .18em; text-transform: uppercase; }
+      h1 { margin: 0; color: #063878; font-size: clamp(30px, 5vw, 46px); line-height: 1.05; letter-spacing: -.045em; }
+      .intro { margin: 9px auto 0; color: #164e8e; font-size: 14px; line-height: 1.5; }
       .panel {
-        border: 1px solid rgb(255 255 255 / 76%); border-radius: 26px; background: var(--glass);
-        box-shadow: 0 24px 70px rgb(25 91 151 / 13%); backdrop-filter: blur(14px);
+        border: 1px solid rgb(255 255 255 / 76%); border-radius: 22px; background: var(--glass);
+        box-shadow: 0 20px 60px rgb(25 91 151 / 13%); backdrop-filter: blur(14px);
       }
-      .focus-panel { padding: clamp(20px, 4vw, 34px); }
-      .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 16px; margin-bottom: 20px; }
-      h2 { margin: 0; color: #073b82; font-size: 22px; letter-spacing: -.025em; }
-      .hint { margin: 6px 0 0; color: #27609a; font-size: 14px; }
-      .progress-label { color: var(--ink-bright); font-size: 14px; font-weight: 800; white-space: nowrap; }
-      .progress-track { height: 12px; overflow: hidden; border: 1px solid rgb(7 59 130 / 12%); border-radius: 99px; background: #d7ecff; }
-      .progress-fill { width: 0%; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #1689db, #0756b5); transition: width .3s ease; }
-      .task-list { display: grid; gap: 10px; margin: 22px 0 0; padding: 0; list-style: none; }
-      .task {
-        display: flex; align-items: center; gap: 13px; padding: 14px 15px; border: 1px solid var(--line);
-        border-radius: 15px; background: rgb(255 255 255 / 65%); color: var(--ink); font-weight: 650;
+      .notes-panel { padding: clamp(16px, 2.5vw, 24px); }
+      .notes-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+      h2 { margin: 0; color: #073b82; font-size: 19px; letter-spacing: -.025em; }
+      .hint { margin: 4px 0 0; color: #27609a; font-size: 12px; line-height: 1.45; }
+      .notes-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+      .person-block { min-width: 0; padding: 15px; border: 1px solid var(--line); border-radius: 17px; background: rgb(255 255 255 / 63%); }
+      .person-heading { display: flex; align-items: center; gap: 9px; margin-bottom: 11px; }
+      .avatar {
+        display: grid; width: 30px; height: 30px; flex: 0 0 auto; place-items: center; border-radius: 10px;
+        background: #dcefff; color: var(--ink-bright); font-size: 13px; font-weight: 850;
       }
-      .task input { width: 19px; height: 19px; margin: 0; accent-color: #0876c9; }
-      .task.done span { color: #3974a8; text-decoration: line-through; }
-      .notes-panel { margin-top: 20px; padding: clamp(20px, 4vw, 28px); }
-      .notes-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+      .person-heading h3 { margin: 0; color: var(--ink); font-size: 15px; }
+      .person-heading p { margin: 2px 0 0; color: #3974a8; font-size: 11px; }
       textarea {
-        display: block; width: 100%; min-height: 150px; resize: vertical; padding: 16px;
-        border: 1px solid var(--line); border-radius: 15px; outline: none; background: rgb(255 255 255 / 76%);
-        color: var(--ink); line-height: 1.6;
+        display: block; width: 100%; min-height: 260px; resize: vertical; padding: 13px;
+        border: 1px solid var(--line); border-radius: 12px; outline: none; background: rgb(255 255 255 / 82%);
+        color: var(--ink); font-size: 14px; line-height: 1.6;
       }
       textarea::placeholder { color: #5380ad; }
       textarea:focus { border-color: #4b9bdb; box-shadow: 0 0 0 3px rgb(75 155 219 / 18%); }
-      .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 13px; }
-      button {
-        min-height: 40px; padding: 9px 15px; border: 1px solid rgb(7 59 130 / 20%); border-radius: 999px;
-        background: rgb(255 255 255 / 78%); color: var(--ink); cursor: pointer; font-size: 13px; font-weight: 800;
-        transition: transform .18s ease, background .18s ease;
-      }
-      button:hover { transform: translateY(-1px); background: #fff; }
-      button.primary { border-color: #0756b5; background: #0756b5; color: #fff; }
-      .save-status { min-height: 20px; margin: 10px 0 0; color: var(--ink-bright); font-size: 12px; font-weight: 700; }
-      footer { padding: 24px 0 0; color: #27609a; text-align: center; font-size: 12px; }
-      @media (max-width: 600px) {
-        .page { padding-top: 22px; }
-        header { margin-bottom: 42px; }
-        .local-note { max-width: 130px; text-align: right; line-height: 1.4; }
-        .section-heading { align-items: start; flex-direction: column; }
-        .progress-label { white-space: normal; }
+      .save-status { min-height: 17px; margin: 7px 2px 0; color: var(--ink-bright); font-size: 11px; }
+      footer { padding: 16px 0 0; color: #27609a; text-align: center; font-size: 11px; }
+      @media (max-width: 650px) {
+        .page { padding-top: 16px; }
+        header { margin-bottom: 20px; }
+        .notes-grid { grid-template-columns: 1fr; }
+        textarea { min-height: 200px; }
       }
       @media (prefers-reduced-motion: reduce) {
         *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
@@ -128,72 +102,43 @@
       </header>
       <section class="hero" aria-labelledby="page-title">
         <p class="eyebrow">One step at a time</p>
-        <h1 id="page-title">ETL Progress<br />Notepad</h1>
-        <p class="intro">A simple home for tracking the CURADENT pipeline. Pick one small next step, record what you learn, and keep moving forward.</p>
-      </section>
-      <section class="panel focus-panel" aria-labelledby="focus-title">
-        <div class="section-heading">
-          <div><h2 id="focus-title">My focus list</h2><p class="hint">Check off a task when it’s done. Add your own by editing this page.</p></div>
-          <span class="progress-label" id="progress-label" aria-live="polite">0 of 4 complete</span>
-        </div>
-        <div class="progress-track" role="progressbar" aria-label="Task completion" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-fill" id="progress-fill"></div></div>
-        <ul class="task-list" id="task-list">
-          <li class="task"><input type="checkbox" /><span>Review the source data</span></li>
-          <li class="task"><input type="checkbox" /><span>Document the extraction step</span></li>
-          <li class="task"><input type="checkbox" /><span>Build or improve one transformation</span></li>
-          <li class="task"><input type="checkbox" /><span>Write down the next small step</span></li>
-        </ul>
+        <h1 id="page-title">ETL Progress Notepad</h1>
+        <p class="intro">A home for tracking the CURADENT pipeline—record what you learn and keep moving forward.</p>
       </section>
       <section class="panel notes-panel" aria-labelledby="notes-title">
-        <div class="notes-head"><div><h2 id="notes-title">Progress notes</h2><p class="hint">Your notes save automatically in this browser.</p></div></div>
-        <label for="notes" class="eyebrow">What did I work on? What’s next?</label>
-        <textarea id="notes" placeholder="Today I…&#10;&#10;I learned…&#10;&#10;My next small step is…"></textarea>
-        <div class="actions"><button class="primary" id="save-button" type="button">Save notes</button><button id="clear-button" type="button">Clear notes</button></div>
-        <p class="save-status" id="save-status" aria-live="polite"></p>
+        <div class="notes-head">
+          <div><h2 id="notes-title">Progress notes</h2><p class="hint">Separate spaces for Sujal and Sulav. Notes currently save in this browser only; they do not sync between visitors.</p></div>
+        </div>
+        <div class="notes-grid">
+          <section class="person-block" aria-labelledby="sujal-title">
+            <div class="person-heading"><span class="avatar" aria-hidden="true">S</span><div><h3 id="sujal-title">Sujal’s notes</h3><p>Work done, discoveries, and next steps</p></div></div>
+            <textarea id="sujal-notes" aria-label="Sujal's progress notes" placeholder="Add your progress notes…"></textarea>
+            <p class="save-status" id="sujal-status" aria-live="polite"></p>
+          </section>
+          <section class="person-block" aria-labelledby="sulav-title">
+            <div class="person-heading"><span class="avatar" aria-hidden="true">S</span><div><h3 id="sulav-title">Sulav’s notes</h3><p>Work done, discoveries, and next steps</p></div></div>
+            <textarea id="sulav-notes" aria-label="Sulav's progress notes" placeholder="Add your progress notes…"></textarea>
+            <p class="save-status" id="sulav-status" aria-live="polite"></p>
+          </section>
+        </div>
       </section>
       <footer>Built for steady progress on the CURADENT ETL pipeline.</footer>
     </main>
     <script>
-      const checklistKey = "curadent-etl-checklist-v1";
-      const notesKey = "curadent-etl-notes-v1";
-      const checks = [...document.querySelectorAll('#task-list input[type="checkbox"]')];
-      const label = document.getElementById("progress-label");
-      const fill = document.getElementById("progress-fill");
-      const bar = document.querySelector('[role="progressbar"]');
-      const notes = document.getElementById("notes");
-      const status = document.getElementById("save-status");
-
-      try {
-        const savedChecks = JSON.parse(localStorage.getItem(checklistKey) || "[]");
-        checks.forEach((check, index) => { check.checked = Boolean(savedChecks[index]); });
-        notes.value = localStorage.getItem(notesKey) || "";
-      } catch { status.textContent = "Browser storage is unavailable; your notes may not persist."; }
-
-      function updateProgress() {
-        const complete = checks.filter((check) => check.checked).length;
-        const percent = checks.length ? Math.round((complete / checks.length) * 100) : 0;
-        label.textContent = `${complete} of ${checks.length} complete`;
-        fill.style.width = `${percent}%`;
-        bar.setAttribute("aria-valuenow", String(percent));
-        checks.forEach((check) => check.closest(".task").classList.toggle("done", check.checked));
-        try { localStorage.setItem(checklistKey, JSON.stringify(checks.map((check) => check.checked))); } catch {}
+      const noteFields = [
+        { input: document.getElementById("sujal-notes"), status: document.getElementById("sujal-status"), key: "curadent-sujal-notes-v1" },
+        { input: document.getElementById("sulav-notes"), status: document.getElementById("sulav-status"), key: "curadent-sulav-notes-v1" },
+      ];
+      for (const field of noteFields) {
+        try { field.input.value = localStorage.getItem(field.key) || ""; }
+        catch { field.status.textContent = "Browser storage is unavailable; notes may not persist."; }
+        field.input.addEventListener("input", () => {
+          try {
+            localStorage.setItem(field.key, field.input.value);
+            field.status.textContent = "Saved in this browser.";
+          } catch { field.status.textContent = "Could not save in this browser."; }
+        });
       }
-      checks.forEach((check) => check.addEventListener("change", updateProgress));
-      notes.addEventListener("input", () => {
-        try { localStorage.setItem(notesKey, notes.value); status.textContent = "Saved in this browser."; }
-        catch { status.textContent = "Could not save in this browser."; }
-      });
-      document.getElementById("save-button").addEventListener("click", () => {
-        try { localStorage.setItem(notesKey, notes.value); status.textContent = "Notes saved in this browser."; }
-        catch { status.textContent = "Could not save in this browser."; }
-      });
-      document.getElementById("clear-button").addEventListener("click", () => {
-        notes.value = "";
-        try { localStorage.removeItem(notesKey); status.textContent = "Notes cleared."; }
-        catch { status.textContent = "Could not update browser storage."; }
-        notes.focus();
-      });
-      updateProgress();
     </script>
   </body>
 </html>
